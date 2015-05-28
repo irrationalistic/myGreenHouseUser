@@ -119,9 +119,26 @@ var apiController = {
 
   updateGarden: function(req, res){
     var gardenId = req.params.gardenId;
-    Garden.findByIdAndUpdate(gardenId, req.body, {new: true}, function(err, results){
-      res.send(results);
-    });
+    // console.log('id: ', gardenId);
+    // console.log('body', req.body);
+    var gardens = req.user.gardens;
+    for (var i = 0; i < gardens.length; i++) {
+      if(gardenId == gardens[i]._id.valueOf()){
+        console.log('gardenID: ', gardens[i]._id.valueOf(), gardenId);
+        req.user.gardens[i].plants = req.body.plants;
+        break
+      }
+    };
+
+    console.log('user gardens:  ', req.user.gardens);
+
+    req.user.save(function(err, result){
+      console.log('test');
+      res.send(result);
+    })
+    // Garden.findByIdAndUpdate(gardenId, req.body, {new: true}, function(err, results){
+    //   res.send(results);
+    // });
   }
 
 };

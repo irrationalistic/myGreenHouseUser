@@ -30,9 +30,6 @@ gardenApp.factory('gardenItems', function($resource){
 gardenApp.controller('gardenListController', function($scope, gardenItems){
   $scope.items = gardenItems.items;
 
-  $scope.addItem = function(){
-    console.log(this);
-  };
 
 
   $scope.addItem = function(){
@@ -80,9 +77,11 @@ gardenApp.directive('gardenitem', function(){
           gardenItems.items.splice(gardenItems.items.indexOf(garden), 1);
       };
       $scope.addPlant = function(){
-        console.log(this);
         this.garden.plants.push(this.newItem);
-        this.garden.$save();
+        this.garden.$save(function(){
+          console.log(arguments);
+          console.log('gardenscope', $scope.garden);
+        });
         this.newItem = {};
       };
       $scope.removePlant = function(){
@@ -97,101 +96,100 @@ gardenApp.directive('gardenitem', function(){
         $scope.gardenEdit = !$scope.gardenEdit;
       };
       $scope.getPlant = function() {
-        console.log('clicked')
         $scope.showPlantList = !$scope.showPlantList;
       };
-      $scope.checkTitle = function(data) {
-        console.log($scope.garden._id);
-        var id = $scope.garden._id;
-        var d = $q.defer();
-        $http.post('/checkTitle', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
-      $scope.checkLocation = function(data) {
-        var id = $scope.garden._id;
-        var d = $q.defer();
-        $http.post('/checkLocation', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
-      $scope.checkSoil = function(data) {
-        var id = $scope.garden._id;
-        var d = $q.defer();
-        $http.post('/checkSoil', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
-      $scope.checkWater = function(data) {
-        var id = $scope.garden._id;
-        var d = $q.defer();
+        $scope.checkTitle = function(data) {
+          console.log($scope.garden._id);
+          var id = $scope.garden._id;
+          var d = $q.defer();
+          $http.post('/checkTitle', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };
+        $scope.checkLocation = function(data) {
+          var id = $scope.garden._id;
+          var d = $q.defer();
+          $http.post('/checkLocation', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };
+        $scope.checkSoil = function(data) {
+          var id = $scope.garden._id;
+          var d = $q.defer();
+          $http.post('/checkSoil', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };
+        $scope.checkWater = function(data) {
+          var id = $scope.garden._id;
+          var d = $q.defer();
 
-        $http.post('/checkWater', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
-      $scope.checkSunlight = function(data) {
-        var id = $scope.garden._id;
-        var d = $q.defer();
-        $http.post('/checkSunlight', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
-      $scope.checkComment = function(data) {
-        var id = $scope.garden._id;
-        var d = $q.defer();
-        $http.post('/checkComment', {value: data, id: id}).success(function(res) {
-          res = res || {};
-          if(res.status === 'ok') { // {status: "ok"}
-            d.resolve()
-          } else { // {status: "error", msg: "Username should be `awesome`!"}
-            d.resolve(res.msg)
-          }
-        }).error(function(e){
-          d.reject('Server error!');
-        });
-        return d.promise;
-      };
+          $http.post('/checkWater', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };
+        $scope.checkSunlight = function(data) {
+          var id = $scope.garden._id;
+          var d = $q.defer();
+          $http.post('/checkSunlight', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };
+        $scope.checkComment = function(data) {
+          var id = $scope.garden._id;
+          var d = $q.defer();
+          $http.post('/checkComment', {value: data, id: id}).success(function(res) {
+            res = res || {};
+            if(res.status === 'ok') { // {status: "ok"}
+              d.resolve()
+            } else { // {status: "error", msg: "Username should be `awesome`!"}
+              d.resolve(res.msg)
+            }
+          }).error(function(e){
+            d.reject('Server error!');
+          });
+          return d.promise;
+        };///// WHERE ALL THE EDITINPLACE FUCNTIONS LIVE
 
 
       'use strict';
