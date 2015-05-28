@@ -35,7 +35,9 @@ gardenApp.controller('gardenListController', function($scope, gardenItems){
   $scope.addItem = function(){
     //gardenItems.items.push(this.newItem);
     var newPost = new gardenItems.model(this.newItem);
+    console.log(this.newItem);
     newPost.$save(function(savedItem){
+      console.log(newPost);
       gardenItems.items.push(savedItem);
     });
     this.newItem = {};

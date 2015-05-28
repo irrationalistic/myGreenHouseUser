@@ -19,7 +19,9 @@ var apiController = {
     // });
     req.user.gardens.push(req.body);
     req.user.save(function(err, result){
-      res.send(result);
+      // let's send back only the new garden instead of the whole user
+      // object.
+      res.send(result.gardens[result.gardens.length - 1]);
     })
   },
 
@@ -134,7 +136,8 @@ var apiController = {
 
     req.user.save(function(err, result){
       console.log('test');
-      res.send(result);
+      // send back only the changed garden information
+      res.send(result.gardens.id(gardenId));
     })
     // Garden.findByIdAndUpdate(gardenId, req.body, {new: true}, function(err, results){
     //   res.send(results);
