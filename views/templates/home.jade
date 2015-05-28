@@ -1,0 +1,51 @@
+form(ng-submit="addItem()").well.text-center
+  h2 new Garden Form
+  .form-group
+    input.form-control(type="text", placeholder="Item Title...", ng-model="newItem.title")
+  .form-group
+    label location:
+    select#garden-water-frequency-input(ng-model="newItem.location")
+      option(value='Outside') Outside
+      |               
+      option(value='Inside') Inside
+      |               
+      option(value='Other') Other  
+  .form-group
+    label Watering Frequency:
+    select#garden-water-frequency-input(ng-model="newItem.water" )
+      option(value='weekly' selected) Weekly
+      |               
+      option(value='daily') Daily
+      |               
+      option(value='monthly') Monthly
+  .form-group
+    label soil type:
+    select#garden-water-frequency-input(ng-model="newItem.soil")
+      option(value='Wet') Wet
+      |               
+      option(value='Damp') Damp
+      |               
+      option(value='Arid') Arid
+  .form-group
+    label sunlight %:
+    input(type='range', min='0', max='100', value='50', step='20', list='tickmarks', ng-model="newItem.sunlight")
+    datalist#tickmarks
+      option 0
+      option 20
+      option 40
+      option 60
+      option 80
+      option 100
+  .form-group
+    input.form-control(type="text", placeholder="Item comment...", ng-model="newItem.comment")
+  .form-group
+    input.btn.btn-primary(type="submit", value="Add Item")
+label search through your list of gardens:
+input.form-control(type="text", placeholder="Search...", ng-model="search")
+hr
+div.garden-item.row(id="{{item._id}}"  ng-repeat="item in items | filter: search")
+  gardenitem( garden="item")
+hr
+
+
+

@@ -1,0 +1,36 @@
+
+.col-sm-6.garden-view-labels
+	a(ng-href="#/"): button.btn.btn-success back
+	br
+	br
+	h1 "{{garden.title}}"
+	hr
+	img(ng-src="data:image-png;base64,{{garden.img}}" class="garden-image")  
+	hr
+	h5 Plants in Garden:
+	ul(ng-repeat="plant in garden.plants") 
+		li.plant-garden-titles  {{plant.title}}
+	h2 Garden Location: {{garden.location}}
+	h2 Garden Water Schedule: {{garden.water}}
+	h2 Garden Soil Conditions: {{garden.soil}}
+	h2 Garden Sunlight: {{garden.sunlight}} %
+	h4 Comment: "{{garden.comment}}"
+	h4 Created At:  {{garden.postedAt}}
+div.framer
+	.col-sm-6.garden-view-plant-row
+		label search through your list of gardens:
+		input.form-control(type="text", placeholder="Search...", ng-model="search")
+		hr
+		.plant-row(ng-repeat="plant in garden.plants | filter: search") 
+			.plant-item.col-sm-4.text-center
+				p Plant Title: {{plant.title}}
+				hr
+				p Amount Planted: {{plant.amount}}
+				hr
+				p Plant Sunlight: {{plant.sunlight}}
+				hr
+				p Plant Watering Frequency: {{plant.water}}
+				hr
+				p Plant Notes: {{plant.notes}}
+				hr
+				p Plant Was Created At: {{plant.postedAt}}

@@ -1,0 +1,142 @@
+.col-sm-12.text-center
+  a(ng-href="#/view/{{garden._id}}"): button.btn.btn-success View Garden
+  br
+  br
+  button.btn.btn-success.plant-form-toggle(ng-click="goAway()") edit garden
+  hr
+  
+
+  .edit-garden.well(ng-show="gardenEdit")
+    webcam(on-stream='onStream(stream,video)', channel="channel", on-access-denied='onError(err)', on-streaming='onSuccess(video)')
+    hr
+    button.btn.btn-large.btn-primary(ng-click='makeSnapshot(garden._id)') Take snapshot!
+    hr(ng-show="gardenEdit")
+    canvas.snapshot.well
+    br
+    this is what your garden  will look like
+    
+    hr
+    div Garden Title: 
+      a(href='#', editable-text='garden.title' onbeforesave="checkTitle($data)") {{ garden.title || 'empty' }}
+    div Garden Location: 
+      a(href='#', editable-text='garden.location' onbeforesave="checkLocation($data)") {{ garden.location || 'empty' }}
+    div Garden Water: 
+      a(href='#', editable-text='garden.water' onbeforesave="checkWater($data)") {{ garden.water || 'empty' }}
+    div Garden Soil: 
+      a(href='#', editable-text='garden.soil' onbeforesave="checkSoil($data)") {{ garden.soil || 'empty' }}
+    div Garden Sunlight %: 
+      a(href='#', editable-number='garden.sunlight' onbeforesave="checkSunlight($data)") {{ garden.sunlight || 'empty' }}
+    div Garden Comment: 
+      a(href='#', editable-text='garden.comment' onbeforesave="checkComment($data)") {{ garden.comment || 'empty' }}
+    button.btn.btn-success.plant-form-toggle(ng-click="goAway()") done
+
+  button.btn.btn-large.btn-primary(ng-click='downloadSnapshot(snapshotData)', ng-disabled='!snapshotData') Download ^^
+  button.btn.btn-small(ng-click='showBase64 = !showBase64') Show as base64 encoded URL
+  textarea.snapshot-data.ng-pristine.ng-valid(ng-model='snapshotData', ng-show='showBase64')
+  hr
+  h1 "{{garden.title}}"
+  hr
+  img(ng-src="data:image-png;base64,{{garden.img}}" class="garden-image")  
+  hr
+  h5 Plants in Garden:
+  ul(ng-repeat="plant in garden.plants") 
+    li.plant-garden-titles  {{plant.title}}
+  hr
+  h2 Garden Location: {{garden.location}}
+  hr
+  h2 Garden Water Schedule: {{garden.water}}
+  hr
+  h2 Garden Soil Conditions: {{garden.soil}}
+  hr
+  h2 Garden Sunlight: {{garden.sunlight}} %
+  hr
+  h4 Comment: "{{garden.comment}}"
+  hr
+  h4 Created At:  {{garden.postedAt}}
+  hr
+.row.text-center
+  .col-sm-12.text-center
+    form.well( ng-show="showPlantForm" ng-submit="addPlant()")
+      .form-group
+        input.form-control(type="text", placeholder="Plant Title...", ng-model="newItem.title")
+      .form-group
+        label amount planted :
+        select#plant-water-frequency-input(ng-model="newItem.amount")
+          option(value=1) 1
+          |               
+          option(value=2) 2
+          |               
+          option(value=3) 3 
+          |               
+          option(value=4) 4
+          |                              
+          option(value=5) 5
+          |               
+          option(value=6) 6
+          |               
+          option(value=7) 7
+          |               
+          option(value=8) 8
+          |               
+          option(value=9) 9
+          |               
+          option(value=10) 10
+          |                                     
+      .form-group
+        label Watering Frequency:
+        select#plant-water-frequency-input(ng-model="newItem.water" )
+          option(value='weekly' selected) Weekly
+          |               
+          option(value='daily') Daily
+          |               
+          option(value='monthly') Monthly
+      .form-group
+        label soil type:
+        select#plant-water-frequency-input(ng-model="newItem.soil")
+          option(value='Wet') Wet
+          |               
+          option(value='Damp') Damp
+          |               
+          option(value='Arid') Arid
+      .form-group
+        label sunlight amount:
+        input(type='range', min='0', max='100', value='50', step='20', list='tickmarks', ng-model="newItem.sunlight")
+        datalist#tickmarks
+          option 0
+          option 20
+          option 40
+          option 60
+          option 80
+          option 100
+      .form-group
+        input.form-control(type="text", placeholder="plant comments...", ng-model="newItem.notes")
+      .form-group
+        input.btn.btn-primary(type="submit", value="Add Item")
+    button.btn.btn-success.plant-form-toggle(ng-click="toggle()") show plant Add form 
+    hr
+    button.btn.btn-success.plant-form-toggle(ng-click="getPlant()") Show / Hide Plants!
+.row.plant-columns(ng-show="showPlantList")
+  label search through your list of gardens:
+  input.form-control(type="text", placeholder="Search...", ng-model="search")
+  hr
+  .plant-row(ng-repeat="plant in garden.plants | filter: search") 
+    .plant-item.col-sm-12.text-center
+        p: button.btn.btn-danger(ng-click="removePlant()") remove plant
+        p Plant Title: {{plant.title}}
+        hr
+        p Amount Planted: {{plant.amount}}
+        hr
+        p Plant Sunlight: {{plant.sunlight}}
+        hr
+        p Plant Watering Frequency: {{plant.water}}
+        hr
+        p Plant Notes: {{plant.notes}}
+        hr
+        p Plant Was Created At: {{plant.postedAt}}
+button.btn.btn-danger(ng-click="remove(garden)") remove garden
+    
+
+
+  
+  
+
